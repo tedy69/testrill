@@ -39,7 +39,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "schema": "tsx scripts/export-schema.ts",
-    "docs:check": "node scripts/check-docs.mjs"
+    "docs:check": "node scripts/check-docs.mjs",
+    "native:check-patches": "node scripts/check-native-patches.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",

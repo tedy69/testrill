@@ -4,6 +4,9 @@ dist-engine/
 .rehearsal/
 .testrill/
 src-tauri/target/
+tests/native/glib-variant/target/
+src-tauri/vendor/glib/target/
+src-tauri/vendor/glib/Cargo.lock
 src-tauri/binaries/
 src-tauri/resources/
 src-tauri/gen/

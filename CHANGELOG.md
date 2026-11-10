@@ -15,6 +15,8 @@ User-facing changes are recorded here. The initial public source is an early pre
 
 ### Changed
 
+- Backported the upstream GLib string-iterator fix to the Linux native dependency tree. Vendored source verification and optimized regression tests now run in CI alongside a Linux native compile check; see the [backport review](docs/security/glib-backport.md).
+
 - Updated direct npm dependencies to their latest stable releases, including Vite 8, React's Vite plugin 6, TypeScript 7, and esbuild 0.28. Development, CI, and bundled-engine builds now require Node 26 LTS or newer and use npm 12.2.2 with reviewed install scripts.
 - Raised Rust dependency minimums to the current stable releases. Dependabot now checks daily and groups related React, Playwright, Tauri JavaScript, and Vite/toolchain updates.
 
@@ -22,7 +24,7 @@ User-facing changes are recorded here. The initial public source is an early pre
 
 ### Known limits
 
-- A moderate upstream GLib advisory remains open in the Linux native dependency tree; see the [security policy](SECURITY.md) for the affected version and update constraint.
+- The upstream Linux native stack still includes unmaintained `proc-macro-error`; GLib uses a reviewed local security backport until a compatible upstream dependency update is available. See the [security policy](SECURITY.md).
 
 - Physical mobile execution, Windows/Linux desktop packaging, Apple notarization, and named vendor-client setup are not all verified.
 - Database reset providers, arbitrary desktop interaction, shared team workspaces, screenshot baselines, and automatic test generation remain roadmap work.

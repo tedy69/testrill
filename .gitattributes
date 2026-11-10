@@ -7,3 +7,4 @@
 *.ttf binary
 *.woff2 binary
 *.zip binary
+src-tauri/vendor/** -text linguist-vendored

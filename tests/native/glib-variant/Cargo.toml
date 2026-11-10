@@ -1,0 +1,17 @@
+[package]
+name = "testrill-glib-regression"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+glib = { path = "../../../src-tauri/vendor/glib", default-features = false }
+
+[[test]]
+name = "variant_str_iter"
+path = "variant_str_iter.rs"
+
+[profile.release]
+opt-level = 3
+codegen-units = 1
+lto = "thin"

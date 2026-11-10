@@ -23,6 +23,7 @@ jobs:
       - run: npm ci
       - run: npm audit --audit-level=low
       - run: npm run format:check
+      - run: npm run native:check-patches
       - run: npm test
       - run: npm run build
       - run: npx playwright install --with-deps chromium
@@ -59,5 +60,30 @@ jobs:
       - run: npm install --global npm@12.2.2
       - run: npm ci
       - run: npm run desktop:prepare
+      - run: cargo check --locked
+        working-directory: src-tauri
+  linux-native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      CARGO_BUILD_JOBS: 2
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # stable
+      - name: Install Linux native prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libwebkit2gtk-4.1-dev build-essential libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+      - run: npm install --global npm@12.2.2
+      - run: npm ci
+      - run: npm run native:check-patches
+      - run: cargo test --locked --release --manifest-path tests/native/glib-variant/Cargo.toml
+      - run: npm run desktop:prepare
+      - run: cargo tree --locked -i glib@0.18.5
+        working-directory: src-tauri
       - run: cargo check --locked
         working-directory: src-tauri

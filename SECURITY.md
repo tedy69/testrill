@@ -20,10 +20,10 @@ If you need an initial contact before sharing details, open a public issue that 
 
 See [architecture](docs/architecture.md) for execution limits and persistence boundaries. Ordinary setup failures and feature requests belong in the [issue forms](https://github.com/tedy69/testrill/issues/new/choose), not in a vulnerability report.
 
-## Known dependency advisory
+## GLib iterator backport
 
-As of 10 November 2026, GitHub reports [GHSA-wrw7-89jp-8q8g](https://github.com/advisories/GHSA-wrw7-89jp-8q8g), a moderate-severity iterator unsoundness advisory, for `glib 0.18.5` in the transitive Linux native dependency tree. The advisory's patched line starts at `0.20.0`; Dependabot cannot resolve that version with the current dependency constraints.
+The Linux native dependency tree requires GLib's 0.18 line, which is affected by [GHSA-wrw7-89jp-8q8g](https://github.com/advisories/GHSA-wrw7-89jp-8q8g). Testrill now applies the upstream iterator fix to a vendored copy of `glib 0.18.5` through Cargo's `[patch.crates-io]`. The local copy retains its original version and license; it is not an upstream 0.20 release.
 
-The alert remains open and is not dismissed. Resolving it needs a compatible update to the upstream native dependency stack, followed by Linux validation. This repository has not established whether the affected iterator is reachable in a Testrill Linux build. Linux desktop packaging is currently unverified and no Linux binary release is published. A passing macOS compile or Node/browser CI run does not resolve this advisory.
+The unpatched source crashes in the optimized regression test; the backport passes all six cases covering the affected iterator methods. CI verifies the vendored source hashes and patch resolution, runs the optimized regression on Linux, and checks the Linux native application. See the [backport review](docs/security/glib-backport.md) for provenance, verification, and removal conditions. Linux GUI behavior and binary packaging remain unverified.
 
-The latest RustSec audit also reports `proc-macro-error 1.0.4` as unmaintained (RUSTSEC-2024-0370). Both findings are transitive upstream constraints; neither is suppressed. See the [dependency review](docs/dependency-review.md) for reproduction commands and the distinction between RustSec warnings and its vulnerability count.
+No advisory is ignored or manually dismissed. Registry-based scanners may stop reporting GLib because Cargo now selects a path dependency; that alone does not prove a fix. Source review and the optimized regression provide that evidence. The latest RustSec audit still reports `proc-macro-error 1.0.4` as unmaintained (RUSTSEC-2024-0370); this separate upstream finding remains outstanding. See the [dependency review](docs/dependency-review.md).

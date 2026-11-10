@@ -14,7 +14,9 @@ const files = [
       encoding: 'utf8',
     }).split('\0'),
   ),
-].filter((file) => file && existsSync(resolve(root, file)));
+].filter(
+  (file) => file && !file.startsWith('src-tauri/vendor/') && existsSync(resolve(root, file)),
+);
 const errors = [];
 const required = [
   'README.md',

@@ -13,6 +13,9 @@ tauri = { version = "2.12.5", features = [] }
 tauri-plugin-dialog = "2.8.4"
 serde_json = "1.0.154"
 
+[patch.crates-io]
+glib = { path = "vendor/glib" }
+
 [profile.release]
 strip = false
 lto = true
