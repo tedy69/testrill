@@ -35,6 +35,8 @@ The source workspace defaults to `.testrill/`. `--data /absolute/path/to/state` 
 
 The project does not define a separate lint command. Type checking, formatting, tests, and documentation validation are the current checks.
 
+The Linux GLib dependency has a local security backport. Run `npm run native:check-patches` and `cargo test --locked --release --manifest-path tests/native/glib-variant/Cargo.toml` when touching native dependencies. The regression requires GLib development libraries (`libglib2.0-dev` on Debian/Ubuntu, `glib` via Homebrew on macOS). See the [backport review](security/glib-backport.md) before updating or removing the patch.
+
 ## Source map
 
 | Location                                      | Responsibility                                            |

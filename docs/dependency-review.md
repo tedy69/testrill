@@ -32,16 +32,17 @@ cargo audit
 
 The upgrade passed a clean npm install, with no outdated direct npm packages and zero npm audit vulnerabilities. All 10 engine/integration tests and both end-to-end tests passed, covering browser examples, failure evidence, saved reruns, responsive/accessibility checks, CLI, and MCP. Documentation, formatting, and workflow validation passed. The macOS arm64 native app built and passed `cargo check --locked`; the installed app uses Node 26.13.0 and completed the Health contract with one successful assertion and one artifact, preserving its previous six runs. Windows/Linux packaging remains unverified.
 
-## Outstanding upstream findings
+## Native security backport and remaining finding
 
-`cargo-audit 0.22.2`, using RustSec database commit `d9cb059f3217db87aeccd190b81eaffe8cc29cb9` (9 November 2026), reports zero entries in its vulnerability list **and two informational findings**:
+The initial registry-only graph reported GLib iterator unsoundness and unmaintained `proc-macro-error`. GLib is now patched locally using the upstream fix. See the [backport review](security/glib-backport.md) for source provenance, the reproduced crash, optimized regression tests, and CI coverage.
 
-| Package                | Finding                                                                                                                                         | Constraint                                                                                            |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| glib 0.18.5            | [RUSTSEC-2024-0429](https://rustsec.org/advisories/RUSTSEC-2024-0429.html), iterator unsoundness; also an open moderate GitHub Dependabot alert | The current Tauri Linux GTK/WebKit tree requires this older GLib line. Patched GLib starts at 0.20.0. |
-| proc-macro-error 1.0.4 | [RUSTSEC-2024-0370](https://rustsec.org/advisories/RUSTSEC-2024-0370.html), unmaintained                                                        | Present through upstream native dependencies. Requires an upstream migration.                         |
+`cargo-audit 0.22.2`, using RustSec database commit `28d73fc95e5972af3403225a217def57dcaba3c4` (10 November 2026), reports zero entries in its vulnerability list and one informational finding after the backport:
 
-A successful audit exit code does not clear these findings. No advisory is ignored or dismissed. The [Tauri GTK4 migration proposal](https://github.com/tauri-apps/tauri/pull/15680) is closed without merging; it is not a released fix. See [SECURITY.md](../SECURITY.md) for reachability and distribution limits.
+| Package                | Finding                                                                                  | Constraint                                                                    |
+| ---------------------- | ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| proc-macro-error 1.0.4 | [RUSTSEC-2024-0370](https://rustsec.org/advisories/RUSTSEC-2024-0370.html), unmaintained | Present through upstream native dependencies. Requires an upstream migration. |
+
+A successful audit exit code does not clear the maintenance finding. Registry scanners do not establish the safety of a local path dependency, so CI independently verifies the vendored GLib hashes, its resolution, and optimized behavior. No advisory is ignored or manually dismissed. The [Tauri GTK4 migration proposal](https://github.com/tauri-apps/tauri/pull/15680) is closed without merging; it is not a released fix. See [SECURITY.md](../SECURITY.md) for distribution limits.
 
 ## Dependabot and review
 
