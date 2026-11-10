@@ -2,6 +2,8 @@
 
 Testrill is an early-preview local testing workbench. Start with the root [README](../README.md) to run the bundled example.
 
+See the [dependency review](dependency-review.md) for the latest stable dependency baseline, update policy, and outstanding upstream advisories.
+
 | Task                                              | Guide                                                                                                                                  |
 | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | Set up a checkout and understand the source       | [Development](development.md)                                                                                                          |
