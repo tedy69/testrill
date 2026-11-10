@@ -1,1 +1,10 @@
-src-tauri/vendor/** linguist-vendored
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.icns binary
+*.ttf binary
+*.woff2 binary
+*.zip binary
+src-tauri/vendor/** -text linguist-vendored
