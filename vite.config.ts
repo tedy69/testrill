@@ -17,7 +17,10 @@ export default defineConfig({
             try {
               const connection = JSON.parse(
                 readFileSync(
-                  resolve(process.env.REHEARSAL_DATA_DIR ?? '.rehearsal', 'connection.json'),
+                  resolve(
+                    process.env.TESTRILL_DATA_DIR ?? process.env.REHEARSAL_DATA_DIR ?? '.testrill',
+                    'connection.json',
+                  ),
                   'utf8',
                 ),
               );

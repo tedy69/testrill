@@ -1,11 +1,11 @@
 ---
-name: rehearsal
-description: Use Rehearsal's CLI or MCP server to run a registered project's tests and inspect recorded evidence.
+name: testrill
+description: Use Testrill's CLI or MCP server to run a registered project's tests and inspect recorded evidence.
 ---
 
-# Rehearsal testing
+# Testrill testing
 
-Use the connected Rehearsal MCP server when available. Otherwise, run the built CLI with an absolute path to `dist-engine/main.cjs` and the intended `--data` workspace. Never assume the desktop app and the current directory use the same workspace; inspect Agent connection first.
+Use the connected Testrill MCP server when available. Otherwise, run the built CLI with an absolute path to `dist-engine/main.cjs` and the intended `--data` workspace. Never assume the desktop app and the current directory use the same workspace; inspect Agent connection first.
 
 1. Discover projects and inspect their suites/scenarios.
 2. Prepare the configured environment if needed. Do not replace its command without the user's instruction.

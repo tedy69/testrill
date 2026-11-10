@@ -1,6 +1,6 @@
-# Rehearsal design direction
+# Testrill design direction
 
-Approved in this chat: compact workbench, warm light surfaces, graphite text, restrained teal controls. Temporary product name is text only. No logo or generated imagery.
+Approved in this chat: compact workbench, warm light surfaces, graphite text, restrained teal controls. The permanent name is Testrill, chosen after comparing alternatives. The identity uses a T-shaped test path ending at a square checkpoint. See brand/brand.md for assets, palette, typography, and usage.
 
 Identity: a practical instrument for investigating software behavior. A quiet workspace that gives detailed evidence room to breathe.
 

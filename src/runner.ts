@@ -165,7 +165,8 @@ export class Runner {
       if (browserSteps) {
         const require = createRequire(
           join(
-            process.env.REHEARSAL_RUNTIME_DIR ||
+            process.env.TESTRILL_RUNTIME_DIR ||
+              process.env.REHEARSAL_RUNTIME_DIR ||
               dirname(resolve(process.argv[1] ?? 'package.json')),
             'package.json',
           ),

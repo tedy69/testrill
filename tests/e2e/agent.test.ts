@@ -13,7 +13,7 @@ test(
   'built CLI works outside the repository and MCP stdio reads its evidence',
   { timeout: 60_000 },
   async () => {
-    const directory = mkdtempSync(join(tmpdir(), 'rehearsal-agent-'));
+    const directory = mkdtempSync(join(tmpdir(), 'testrill-agent-'));
     const engine = await startEngine({ directory });
     const entry = resolve('dist-engine/main.cjs');
     const client = new Client({ name: 'agent-integration', version: '1' });

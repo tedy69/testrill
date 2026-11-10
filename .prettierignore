@@ -2,6 +2,9 @@ node_modules
 dist
 dist-engine
 .rehearsal
+.testrill
+brand/*.svg
+brand/fonts
 src-tauri/target
 src-tauri/binaries
 src-tauri/resources

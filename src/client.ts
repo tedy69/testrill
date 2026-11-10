@@ -29,7 +29,12 @@ export class ApiClient {
   }
 }
 export function dataDirectory(value?: string) {
-  return resolve(value ?? process.env.REHEARSAL_DATA_DIR ?? join(process.cwd(), '.rehearsal'));
+  return resolve(
+    value ??
+      process.env.TESTRILL_DATA_DIR ??
+      process.env.REHEARSAL_DATA_DIR ??
+      join(process.cwd(), '.testrill'),
+  );
 }
 export async function connect(
   directory: string,

@@ -27,7 +27,7 @@ if (!license)
 copyFileSync(license, join(runtime, 'Node-LICENSE.txt'));
 writeFileSync(
   join(runtime, 'package.json'),
-  JSON.stringify({ name: 'rehearsal-runtime', private: true }),
+  JSON.stringify({ name: 'testrill-runtime', private: true }),
 );
 cpSync('dist', join(runtime, 'ui'), { recursive: true });
 cpSync(
@@ -35,7 +35,7 @@ cpSync(
   join(runtime, 'node_modules/playwright-core'),
   { recursive: true },
 );
-const binary = `src-tauri/binaries/rehearsal-node-${triple}${process.platform === 'win32' ? '.exe' : ''}`;
+const binary = `src-tauri/binaries/testrill-node-${triple}${process.platform === 'win32' ? '.exe' : ''}`;
 copyFileSync(process.execPath, binary);
 chmodSync(binary, 0o755);
 console.log(`Prepared engine and Node runtime for ${triple}`);

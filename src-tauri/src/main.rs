@@ -27,7 +27,7 @@ async fn save_download(
     let name = std::path::Path::new(&suggested_name)
         .file_name()
         .and_then(|n| n.to_str())
-        .unwrap_or("rehearsal-export.zip")
+        .unwrap_or("testrill-export.zip")
         .to_string();
     tauri::async_runtime::spawn_blocking(move || {
         if let Some(path) = app.dialog().file().set_file_name(name).blocking_save_file() {
@@ -54,15 +54,15 @@ fn main() {
                 std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
                     .join("binaries")
                     .join(format!(
-                        "rehearsal-node-{}{}",
-                        env!("REHEARSAL_TARGET"),
+                        "testrill-node-{}{}",
+                        env!("TESTRILL_TARGET"),
                         std::env::consts::EXE_SUFFIX
                     ))
             } else {
                 std::env::current_exe()?
                     .parent()
                     .ok_or("Missing application directory")?
-                    .join(format!("rehearsal-node{}", std::env::consts::EXE_SUFFIX))
+                    .join(format!("testrill-node{}", std::env::consts::EXE_SUFFIX))
             };
             let connection = Arc::new(Mutex::new(Err("The local engine is starting".into())));
             let mut child = Command::new(executable)
@@ -74,8 +74,8 @@ fn main() {
                     "--data",
                     directory.to_string_lossy().as_ref(),
                 ])
-                .env("REHEARSAL_RUNTIME_DIR", &runtime)
-                .env("REHEARSAL_UI_DIR", runtime.join("ui"))
+                .env("TESTRILL_RUNTIME_DIR", &runtime)
+                .env("TESTRILL_UI_DIR", runtime.join("ui"))
                 .current_dir(&runtime)
                 .stdin(Stdio::piped())
                 .stdout(Stdio::piped())
@@ -89,7 +89,7 @@ fn main() {
             });
             std::thread::spawn(move || {
                 for line in BufReader::new(stdout).lines().map_while(Result::ok) {
-                    if line.starts_with("REHEARSAL_READY ") {
+                    if line.starts_with("TESTRILL_READY ") {
                         let value = std::fs::read(directory.join("connection.json"))
                             .map_err(|e| e.to_string())
                             .and_then(|data| {
@@ -101,18 +101,18 @@ fn main() {
                     }
                 }
                 if let Ok(mut state) = connection.lock() {
-                    *state = Err("The local engine stopped. Restart Rehearsal.".into());
+                    *state = Err("The local engine stopped. Restart Testrill.".into());
                 }
             });
             std::thread::spawn(move || {
                 for line in BufReader::new(stderr).lines().map_while(Result::ok) {
-                    eprintln!("Rehearsal engine: {line}");
+                    eprintln!("Testrill engine: {line}");
                 }
             });
             Ok(())
         })
         .build(tauri::generate_context!())
-        .expect("Unable to launch Rehearsal");
+        .expect("Unable to launch Testrill");
     application.run(|app, event| {
         if let RunEvent::Exit = event {
             if let Some(state) = app.try_state::<EngineState>() {

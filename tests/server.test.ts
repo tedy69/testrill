@@ -12,7 +12,7 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 
 test('authenticated HTTP, live run lifecycle, export, and MCP use the same engine', async () => {
-  const directory = mkdtempSync(join(tmpdir(), 'rehearsal-http-'));
+  const directory = mkdtempSync(join(tmpdir(), 'testrill-http-'));
   const engine = await startEngine({ directory });
   const client = new ApiClient(engine.connection);
   try {

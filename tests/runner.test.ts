@@ -9,7 +9,7 @@ import { Store } from '../src/store.js';
 import { Runner, cleanUrl } from '../src/runner.js';
 
 test('runs real API assertions, preserves snapshots, and reports failures accurately', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'rehearsal-runner-'));
+  const dir = mkdtempSync(join(tmpdir(), 'testrill-runner-'));
   const store = new Store(dir);
   const runner = new Runner(store);
   const config = projectSchema.parse({

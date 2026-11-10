@@ -1,5 +1,5 @@
 [package]
-name = "rehearsal"
+name = "testrill"
 version = "0.1.0"
 description = "A local testing workbench for people and agents"
 edition = "2021"

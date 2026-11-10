@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { projectSchema } from '../src/schema.js';
 import { Store } from '../src/store.js';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { mkdtempSync, rmSync, renameSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { readFileSync } from 'node:fs';
@@ -16,7 +16,7 @@ const config = {
 };
 test('all published manifest examples satisfy the runtime contract', () => {
   for (const example of ['http', 'existing-tests', 'mobile']) {
-    projectSchema.parse(JSON.parse(readFileSync(`examples/${example}/rehearsal.json`, 'utf8')));
+    projectSchema.parse(JSON.parse(readFileSync(`examples/${example}/testrill.json`, 'utf8')));
   }
 });
 test('rejects duplicate suite IDs, missing scenarios, and non-http URLs', () => {
@@ -34,8 +34,8 @@ test('rejects duplicate suite IDs, missing scenarios, and non-http URLs', () => 
     false,
   );
 });
-test('persists project definitions through a database restart', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'rehearsal-store-'));
+test('creates a Testrill database and preserves a legacy workspace through restart', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'testrill-store-'));
   let store = new Store(dir);
   try {
     store.saveProject({
@@ -43,9 +43,12 @@ test('persists project definitions through a database restart', () => {
       root: dir,
       updatedAt: new Date().toISOString(),
     });
+    assert.equal(existsSync(join(dir, 'testrill.sqlite')), true);
     store.close();
+    renameSync(join(dir, 'testrill.sqlite'), join(dir, 'rehearsal.sqlite'));
     store = new Store(dir);
     assert.equal(store.project('test')?.config.name, 'Example');
+    assert.equal(existsSync(join(dir, 'testrill.sqlite')), false);
   } finally {
     store.close();
     rmSync(dir, { recursive: true, force: true });

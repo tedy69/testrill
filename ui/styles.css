@@ -162,14 +162,10 @@ a {
   padding: 0 10px;
 }
 .brand-word {
-  font:
-    31px/1.15 Georgia,
-    'Times New Roman',
-    serif;
-  letter-spacing: -1.2px;
-}
-.brand-word > span {
-  color: var(--teal);
+  display: block;
+  width: 176px;
+  height: 48px;
+  flex-shrink: 0;
 }
 .brand-caption {
   font-size: 9px;

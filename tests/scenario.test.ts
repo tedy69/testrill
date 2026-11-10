@@ -27,7 +27,17 @@ test('streams only after a checkpoint and resumes after a known event ID', async
     const first = await reader.read();
     assert.match(new TextDecoder().decode(first.value), /data: first/);
     assert.equal(logs.includes('Event delivered: 2'), false);
-    server.release('continue');
+    const control = `${server.url}/__testrill/checkpoints/continue`;
+    assert.equal((await fetch(control, { method: 'POST' })).status, 401);
+    assert.equal(
+      (
+        await fetch(control, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${server.controlToken}` },
+        })
+      ).status,
+      200,
+    );
     let tail = '';
     for (;;) {
       const part = await reader.read();
@@ -39,6 +49,15 @@ test('streams only after a checkpoint and resumes after a known event ID', async
     const text = await resumed.text();
     assert.doesNotMatch(text, /data: first/);
     assert.match(text, /data: second/);
+    assert.equal(
+      (
+        await fetch(`${server.url}/__rehearsal/checkpoints/continue`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${server.controlToken}` },
+        })
+      ).status,
+      200,
+    );
   } finally {
     await server.close();
   }

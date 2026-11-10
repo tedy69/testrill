@@ -1,0 +1,48 @@
+{
+  "method": "WCAG relative luminance contrast ratio",
+  "checkedOn": "2026-11-10",
+  "pairs": [
+    {
+      "foreground": "graphite",
+      "background": "warm",
+      "ratio": 11.76,
+      "normalTextAA": true
+    },
+    {
+      "foreground": "graphite",
+      "background": "white",
+      "ratio": 12.83,
+      "normalTextAA": true
+    },
+    {
+      "foreground": "teal",
+      "background": "warm",
+      "ratio": 5.79,
+      "normalTextAA": true
+    },
+    {
+      "foreground": "teal",
+      "background": "white",
+      "ratio": 6.32,
+      "normalTextAA": true
+    },
+    {
+      "foreground": "white",
+      "background": "teal",
+      "ratio": 6.32,
+      "normalTextAA": true
+    },
+    {
+      "foreground": "muted",
+      "background": "warm",
+      "ratio": 4.94,
+      "normalTextAA": true
+    },
+    {
+      "foreground": "muted",
+      "background": "white",
+      "ratio": 5.4,
+      "normalTextAA": true
+    }
+  ]
+}

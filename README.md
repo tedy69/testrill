@@ -1,10 +1,10 @@
-# Rehearsal
+![Testrill](brand/logo.svg)
 
 A desktop testing workbench for people and agents. Prepare a local scenario, run a suite, and inspect the same evidence through the app, CLI, or MCP.
 
-Rehearsal runs without a model API key. Connect the coding agent you already use. Test execution and assertion results come from the runner.
+Testrill runs without a model API key. Connect the coding agent you already use. Test execution and assertion results come from the runner.
 
-![Rehearsal test suites](docs/screenshots/workbench.png)
+![Testrill test suites](docs/screenshots/workbench.png)
 
 ## What works
 
@@ -36,16 +36,16 @@ npm run desktop:dev
 npm run desktop:build
 ```
 
-The native build copies the current Node binary and the engine into Tauri resources. It does not depend on a global Node installation on the destination machine. Browser binaries are installed separately with Playwright and are not bundled. The neutral app icon is a placeholder; product branding is not finalized.
+The native build copies the current Node binary and the engine into Tauri resources. It does not depend on a global Node installation on the destination machine. Browser binaries are installed separately with Playwright and are not bundled. Logos, icons, social artwork, and usage guidance are in [the brand kit](brand/brand.md).
 
-The development engine uses `.rehearsal/` in this repository. The native app uses the operating system's application-data directory. Agent connection shows the exact workspace and a ready-to-copy stdio configuration for that engine.
+The development engine uses `.testrill/` in this repository. The native app uses the operating system's application-data directory. Agent connection shows the exact workspace and a ready-to-copy stdio configuration for that engine. Existing native workspaces are retained after the rename from the temporary name Rehearsal; see [upgrade compatibility](docs/branding-upgrade.md).
 
 ## CLI
 
 ```sh
 npm run build
 node dist-engine/main.cjs projects
-node dist-engine/main.cjs import /absolute/path/to/project/rehearsal.json
+node dist-engine/main.cjs import /absolute/path/to/project/testrill.json
 node dist-engine/main.cjs run example-storefront checkout --json
 node dist-engine/main.cjs run example-storefront api --json
 node dist-engine/main.cjs runs --project example-storefront
@@ -68,11 +68,11 @@ Example task for your agent:
 
 > Inspect the registered project and run its checkout suite. Poll until the run is finished. If it fails, inspect the assertion ledger and failure screenshot. Explain what failed, then rerun the saved scenario after the fix. Cite the run ID and artifact names.
 
-The engine also exposes `/mcp` using Streamable HTTP with bearer authentication. Hosted clients such as ChatGPT cannot directly reach a loopback service. A supported connector and a separately configured authenticated bridge are necessary; Rehearsal does not automatically publish your local engine. See [agent integration](docs/agents.md).
+The engine also exposes `/mcp` using Streamable HTTP with bearer authentication. Hosted clients such as ChatGPT cannot directly reach a loopback service. A supported connector and a separately configured authenticated bridge are necessary; Testrill does not automatically publish your local engine. See [agent integration](docs/agents.md).
 
 ## Project manifest
 
-See [the manifest guide](docs/manifests.md), [HTTP example](examples/http/rehearsal.json), [existing test command example](examples/existing-tests/rehearsal.json), and [Maestro example](examples/mobile/rehearsal.json). The root directory is the manifest's directory. Paths for external commands and mobile flows are resolved there.
+See [the manifest guide](docs/manifests.md), [HTTP example](examples/http/testrill.json), [existing test command example](examples/existing-tests/testrill.json), and [Maestro example](examples/mobile/testrill.json). The root directory is the manifest's directory. Paths for external commands and mobile flows are resolved there.
 
 Importing does not execute commands. Starting an environment or running a command suite executes the command declared in that trusted manifest, with the current user's permissions. This is a local developer tool, not a sandbox for untrusted repositories.
 

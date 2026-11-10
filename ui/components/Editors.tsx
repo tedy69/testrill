@@ -291,7 +291,7 @@ export function ImportDialog({
           </button>
         </div>
         <p>
-          Choose an existing <code>rehearsal.json</code> manifest. Importing registers suites and
+          Choose an existing <code>testrill.json</code> manifest. Importing registers suites and
           scenarios without starting processes.
         </p>
         <label htmlFor="manifest-path">Absolute manifest path</label>
@@ -300,7 +300,7 @@ export function ImportDialog({
             id="manifest-path"
             value={path}
             onChange={(e) => setPath(e.target.value)}
-            placeholder="/path/to/project/rehearsal.json"
+            placeholder="/path/to/project/testrill.json"
             required
             autoFocus
           />
@@ -351,7 +351,7 @@ export function Agents() {
         <h2>Your agent, the same workbench.</h2>
         <p>
           Connect an external agent to inspect projects, run suites, release checkpoints, and read
-          the same evidence you see here. No model API key is required by Rehearsal.
+          the same evidence you see here. No model API key is required by Testrill.
         </p>
       </div>
       <div className="agent-columns">

@@ -156,9 +156,13 @@ export function App() {
         aria-label="Workspace navigation"
       >
         <div className="brand">
-          <span className="brand-word">
-            Rehearsal<span aria-hidden="true">.</span>
-          </span>
+          <img
+            className="brand-word"
+            src="/testrill-logo.svg"
+            alt="Testrill"
+            width="176"
+            height="48"
+          />
           <button
             className="icon-button mobile-close"
             aria-label="Close navigation"
@@ -224,7 +228,7 @@ export function App() {
             <span className={`connection-dot ${connected ? 'connected' : ''}`} aria-hidden="true" />
             <span>
               {connected ? 'Local engine connected' : 'Engine disconnected'}
-              <small>Rehearsal 0.1.0</small>
+              <small>Testrill 0.1.0</small>
             </span>
           </div>
         </div>

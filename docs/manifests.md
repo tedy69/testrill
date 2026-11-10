@@ -39,7 +39,7 @@ A suite declares either inline `steps` or a `runner`:
 }
 ```
 
-On Windows, use the actual executable name where needed, such as `npm.cmd`; Rehearsal does not invoke a shell. Arguments are passed separately. Do not put a complete shell expression in one array entry.
+On Windows, use the actual executable name where needed, such as `npm.cmd`; Testrill does not invoke a shell. Arguments are passed separately. Do not put a complete shell expression in one array entry.
 
 An app launched from Finder may have a different PATH from your terminal. Use an absolute executable path in a manifest when a tool cannot be found in the graphical application's environment.
 
@@ -57,25 +57,25 @@ Maestro must already be installed and a supported device/simulator available. Fl
 
 Command and Maestro processes receive:
 
-| Variable                  | Value                                                 |
-| ------------------------- | ----------------------------------------------------- |
-| `REHEARSAL_BASE_URL`      | Project target                                        |
-| `REHEARSAL_MOCK_URL`      | Temporary scenario endpoint, empty without a scenario |
-| `REHEARSAL_ARTIFACT_DIR`  | Run evidence directory                                |
-| `REHEARSAL_CONTROL_URL`   | Checkpoint control endpoint prefix                    |
-| `REHEARSAL_CONTROL_TOKEN` | Temporary checkpoint bearer token                     |
+| Variable                 | Value                                                 |
+| ------------------------ | ----------------------------------------------------- |
+| `TESTRILL_BASE_URL`      | Project target                                        |
+| `TESTRILL_MOCK_URL`      | Temporary scenario endpoint, empty without a scenario |
+| `TESTRILL_ARTIFACT_DIR`  | Run evidence directory                                |
+| `TESTRILL_CONTROL_URL`   | Checkpoint control endpoint prefix                    |
+| `TESTRILL_CONTROL_TOKEN` | Temporary checkpoint bearer token                     |
 
 Release a checkpoint from a Node test:
 
 ```ts
-await fetch(`${process.env.REHEARSAL_CONTROL_URL}/continue`, {
+await fetch(`${process.env.TESTRILL_CONTROL_URL}/continue`, {
   method: 'POST',
-  headers: { Authorization: `Bearer ${process.env.REHEARSAL_CONTROL_TOKEN}` },
+  headers: { Authorization: `Bearer ${process.env.TESTRILL_CONTROL_TOKEN}` },
 });
 ```
 
-Do not print checkpoint credentials. Stored scenarios and run configuration snapshots do not include these temporary credentials.
+Do not print checkpoint credentials. Stored scenarios and run configuration snapshots do not include these temporary credentials. The previous `REHEARSAL_*` names remain supported for existing test commands.
 
 ## Environment process
 
-`environment.command` is an argument array such as `["npm", "run", "dev"]`. An optional `readyUrl` overrides baseUrl for readiness. Rehearsal checks readiness before launching: an already responding service is not claimed or stopped. Only an owned process is stopped through the environment control. Importing never starts the command automatically.
+`environment.command` is an argument array such as `["npm", "run", "dev"]`. An optional `readyUrl` overrides baseUrl for readiness. Testrill checks readiness before launching: an already responding service is not claimed or stopped. Only an owned process is stopped through the environment control. Importing never starts the command automatically.

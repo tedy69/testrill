@@ -26,10 +26,10 @@ async function main() {
     const engine = await startEngine({
       directory,
       port,
-      uiDirectory: process.env.REHEARSAL_UI_DIR ?? resolve('dist'),
+      uiDirectory: process.env.TESTRILL_UI_DIR ?? process.env.REHEARSAL_UI_DIR ?? resolve('dist'),
     });
     process.stdout.write(
-      `REHEARSAL_READY ${JSON.stringify({ url: engine.connection.url, pid: process.pid })}\n`,
+      `TESTRILL_READY ${JSON.stringify({ url: engine.connection.url, pid: process.pid })}\n`,
     );
     let closing = false;
     const close = async () => {
@@ -47,7 +47,7 @@ async function main() {
   }
   if (command === 'help' || command === '--help') {
     process.stdout.write(
-      `Rehearsal 0.1.0\n\nCommands:\n  serve [--port 4317]\n  projects\n  import /absolute/path/rehearsal.json\n  run PROJECT SUITE [--scenario ID] [--no-wait] [--json]\n  runs [--project ID]\n  inspect RUN\n  rerun RUN [--json]\n  cancel RUN\n  checkpoint RUN NAME\n  export RUN [--output /path/report.zip]\n  environment PROJECT start|stop\n  connection\n  mcp\n\nAll commands accept --data /path/to/state. Engine binds to loopback only.\n`,
+      `Testrill 0.1.0\n\nCommands:\n  serve [--port 4317]\n  projects\n  import /absolute/path/testrill.json\n  run PROJECT SUITE [--scenario ID] [--no-wait] [--json]\n  runs [--project ID]\n  inspect RUN\n  rerun RUN [--json]\n  cancel RUN\n  checkpoint RUN NAME\n  export RUN [--output /path/report.zip]\n  environment PROJECT start|stop\n  connection\n  mcp\n\nAll commands accept --data /path/to/state. Engine binds to loopback only.\n`,
     );
     return;
   }
@@ -144,6 +144,6 @@ async function main() {
   process.stdout.write(JSON.stringify(result, null, 2) + '\n');
 }
 main().catch((error) => {
-  process.stderr.write(`Rehearsal: ${error instanceof Error ? error.message : String(error)}\n`);
+  process.stderr.write(`Testrill: ${error instanceof Error ? error.message : String(error)}\n`);
   process.exitCode = 1;
 });

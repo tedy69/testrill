@@ -1,0 +1,9 @@
+Use case: logo-brand.
+Asset type: identity concept sheet for Testrill, an open-source desktop testing workbench used by developers and coding agents through CLI and MCP.
+Primary request: Create ONE polished, original flat vector-style logo concept, shown as a large symbol plus a beautifully typeset "Testrill" wordmark, and below it a small app icon rendition and a small monochrome symbol. This is a brand concept sheet, not a screenshot or website.
+Idea: a compact T-shaped test path: a sturdy horizontal top bar, a descending stem, and a short returning route that ends at a square checkpoint. Suggest a repeatable controlled run and inspectable evidence through deliberately simple geometry. Make it memorable and legible at 16 pixels. Avoid generic play buttons, checkmark badges, infinity loops, network nodes, robots, sparkles and shields.
+Composition: spacious warm off-white landscape sheet, main lockup centered; only two small supporting applications beneath. Exact text only "Testrill", spelled T-e-s-t-r-i-l-l. Humanist sans-serif with a confident open lowercase r and warm pragmatic character. No slogans, labels or extra text.
+Colors: graphite #27352F, deep teal #246B59, warm canvas #F6F5F0, white. Flat solid colors only. ENERGY 2, RHYTHM 2, MOTION 1. Practical instrument character with a strong ownable silhouette. No gradients, shadows, textures, glossy 3D or borrowed product identity.
+
+Tool: built-in image_gen.imagegen, new image, opaque background.
+The generated concept is concept-exploration.png. Production SVG assets use hand-authored geometry and outlined Figtree text rather than the generated bitmap.

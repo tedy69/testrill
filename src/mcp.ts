@@ -6,7 +6,7 @@ import type { Run } from './schema.js';
 import { projectSchema } from './schema.js';
 
 export function createMcpServer(client: ApiClient) {
-  const server = new McpServer({ name: 'rehearsal', version: '0.1.0' });
+  const server = new McpServer({ name: 'testrill', version: '0.1.0' });
   const id = z.string().min(1).max(100);
   const register = <T extends z.ZodRawShape>(
     name: string,
@@ -56,7 +56,7 @@ export function createMcpServer(client: ApiClient) {
   );
   register(
     'import_project',
-    'Import a trusted local rehearsal.json manifest. Registers configuration; does not execute environment commands.',
+    'Import a trusted local testrill.json manifest. Registers configuration; does not execute environment commands.',
     { path: z.string().min(1).max(2000) },
     false,
     (input) => client.request('POST', '/api/projects/import', input),
@@ -91,7 +91,7 @@ export function createMcpServer(client: ApiClient) {
   );
   register(
     'stop_environment',
-    'Stop only the environment process owned by Rehearsal.',
+    'Stop only the environment process owned by Testrill.',
     { projectId: id },
     false,
     (input) =>

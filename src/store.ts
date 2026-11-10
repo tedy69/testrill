@@ -1,5 +1,5 @@
 import { DatabaseSync } from 'node:sqlite';
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import type { Project, Run } from './schema.js';
 
@@ -7,7 +7,9 @@ export class Store {
   readonly db: DatabaseSync;
   constructor(readonly directory: string) {
     mkdirSync(directory, { recursive: true, mode: 0o700 });
-    this.db = new DatabaseSync(join(directory, 'rehearsal.sqlite'));
+    // Keep existing workspaces in place; new workspaces use the permanent product name.
+    const legacy = join(directory, 'rehearsal.sqlite');
+    this.db = new DatabaseSync(existsSync(legacy) ? legacy : join(directory, 'testrill.sqlite'));
     this.db.exec(`PRAGMA journal_mode=WAL; PRAGMA busy_timeout=5000;
       CREATE TABLE IF NOT EXISTS projects (id TEXT PRIMARY KEY, data TEXT NOT NULL);
       CREATE TABLE IF NOT EXISTS runs (id TEXT PRIMARY KEY, project_id TEXT NOT NULL, started_at TEXT NOT NULL, data TEXT NOT NULL);

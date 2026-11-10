@@ -1,0 +1,30 @@
+{
+  "name": "Testrill",
+  "slug": "testrill",
+  "pronunciation": "TEST-rill",
+  "nameIdea": "test + drill",
+  "selectedOn": "2026-11-10",
+  "tagline": "The testing workbench for people and agents.",
+  "supportingLine": "Repeat the test. Inspect the evidence.",
+  "palette": { "primary": "#246B59", "ink": "#27352F", "canvas": "#F6F5F0", "surface": "#FFFFFF" },
+  "typography": {
+    "wordmark": "Figtree SemiBold, outlined",
+    "ui": "system sans-serif",
+    "code": "system monospace"
+  },
+  "dials": { "energy": 2, "rhythm": 2, "motion": 1 },
+  "voice": ["clear", "precise", "calm"],
+  "avoid": ["Rehearsal"],
+  "domains": [],
+  "colors": [],
+  "legacyExceptions": "../docs/branding-upgrade.md",
+  "screening": {
+    "web": "preliminary search completed 2026-11-10",
+    "githubRepositoryNames": "zero results 2026-11-10",
+    "npmExactPackage": "registry returned 404 on 2026-11-10",
+    "domain": "to run",
+    "trademarks": "to run",
+    "stores": "to run",
+    "handles": "to run"
+  }
+}

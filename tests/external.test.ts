@@ -9,7 +9,7 @@ import { Store } from '../src/store.js';
 import { Runner } from '../src/runner.js';
 
 test('executes a repository command, retains its output, and cancels an active process', async () => {
-  const directory = mkdtempSync(join(tmpdir(), 'rehearsal-command-'));
+  const directory = mkdtempSync(join(tmpdir(), 'testrill-command-'));
   const store = new Store(directory);
   const runner = new Runner(store);
   const config = projectSchema.parse({
@@ -23,7 +23,11 @@ test('executes a repository command, retains its output, and cancels an active p
         name: 'Existing tests',
         runner: {
           type: 'command',
-          command: [process.execPath, '-e', 'console.log("assertions completed")'],
+          command: [
+            process.execPath,
+            '-e',
+            `const assert = require('node:assert/strict'); assert.equal(process.env.TESTRILL_BASE_URL, 'http://127.0.0.1:1'); assert.equal(process.env.TESTRILL_BASE_URL, process.env.REHEARSAL_BASE_URL); assert.equal(process.env.TESTRILL_ARTIFACT_DIR, process.env.REHEARSAL_ARTIFACT_DIR); console.log('assertions completed')`,
+          ],
         },
       },
     ],
@@ -50,7 +54,7 @@ test('executes a repository command, retains its output, and cancels an active p
     const missing = structuredClone(config.suites[0]);
     missing.runner = {
       type: 'command',
-      command: ['rehearsal-nonexistent-test-runner'],
+      command: ['testrill-nonexistent-test-runner'],
       timeoutMs: 1000,
     };
     assert.equal((await wait(runner.start(project, missing))).status, 'blocked');

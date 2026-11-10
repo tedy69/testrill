@@ -55,13 +55,16 @@ export async function startScenario(scenario: Scenario, log: ScenarioLog) {
       return;
     }
     const path = new URL(req.url ?? '/', 'http://localhost').pathname;
-    if (path.startsWith('/__rehearsal/checkpoints/') && req.method === 'POST') {
+    const checkpointPrefix = ['/__testrill/checkpoints/', '/__rehearsal/checkpoints/'].find(
+      (prefix) => path.startsWith(prefix),
+    );
+    if (checkpointPrefix && req.method === 'POST') {
       req.resume();
       if (req.headers.authorization !== `Bearer ${controlToken}`) {
         res.writeHead(401).end();
         return;
       }
-      const name = path.slice('/__rehearsal/checkpoints/'.length);
+      const name = path.slice(checkpointPrefix.length);
       if (!/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,79}$/.test(name)) {
         res.writeHead(400).end();
         return;

@@ -14,7 +14,7 @@ test(
   'browser examples, failure evidence, saved rerun, accessible UI, and responsive layouts',
   { timeout: 180_000 },
   async () => {
-    const directory = mkdtempSync(join(tmpdir(), 'rehearsal-e2e-'));
+    const directory = mkdtempSync(join(tmpdir(), 'testrill-e2e-'));
     const engine = await startEngine({ directory, uiDirectory: resolve('dist') });
     const client = new ApiClient(engine.connection);
     const browser = await chromium.launch();

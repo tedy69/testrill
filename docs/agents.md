@@ -2,7 +2,7 @@
 
 The desktop workbench's Agent connection page generates a stdio configuration using the currently running engine's executable, entry point, and data directory. This works for a packaged app as well as a source checkout. Keep the app installed at that path or regenerate the configuration after moving it.
 
-For a source checkout, build once and configure an MCP client with `node /absolute/path/rehearsal/dist-engine/main.cjs mcp --data /absolute/path/workspace`. Start the engine first or let the CLI start it. Avoid `npm run` wrappers for stdio configuration because npm prints script banners to stdout.
+For a source checkout, build once and configure an MCP client with `node /absolute/path/testrill/dist-engine/main.cjs mcp --data /absolute/path/workspace`. Start the engine first or let the CLI start it. Avoid `npm run` wrappers for stdio configuration because npm prints script banners to stdout.
 
 ## Expected verification loop
 
@@ -20,7 +20,7 @@ An exploratory agent can edit a project's manifest and import it, or use `update
 
 The engine supports stateless MCP Streamable HTTP at `/mcp`. Requests require `Authorization: Bearer <token>`. The token is in the workspace's private `connection.json`; never put it in a public repository or issue report. The server listens on loopback and restricts browser origins.
 
-Hosted clients cannot reach localhost directly. Connecting ChatGPT or another hosted service requires a client-supported transport/authentication configuration and a separately configured reachable bridge. Rehearsal does not create a tunnel, implement OAuth, or claim compatibility with every hosted connector. Test the chosen connection before adopting it.
+Hosted clients cannot reach localhost directly. Connecting ChatGPT or another hosted service requires a client-supported transport/authentication configuration and a separately configured reachable bridge. Testrill does not create a tunnel, implement OAuth, or claim compatibility with every hosted connector. Test the chosen connection before adopting it.
 
 Local stdio and authenticated HTTP are tested with the official MCP SDK. Named vendor applications have not all been tested interactively. A client supporting the protocol still has its own installation and permission requirements.
 

@@ -47,6 +47,14 @@ export async function executeExternal(
       windowsHide: true,
       env: {
         ...process.env,
+        TESTRILL_BASE_URL: variables.baseUrl,
+        TESTRILL_MOCK_URL: variables.mockUrl,
+        TESTRILL_ARTIFACT_DIR: directory,
+        TESTRILL_CONTROL_URL: variables.mockUrl
+          ? `${variables.mockUrl}/__testrill/checkpoints`
+          : '',
+        TESTRILL_CONTROL_TOKEN: variables.controlToken ?? '',
+        // Compatibility for test commands configured before the product rename.
         REHEARSAL_BASE_URL: variables.baseUrl,
         REHEARSAL_MOCK_URL: variables.mockUrl,
         REHEARSAL_ARTIFACT_DIR: directory,

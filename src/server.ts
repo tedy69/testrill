@@ -159,13 +159,13 @@ export async function startEngine(options: {
       const parts = url.pathname.split('/').filter(Boolean).map(decodeURIComponent);
       const method = req.method;
       if (url.pathname === '/api/health' && method === 'GET') {
-        json(res, { name: 'rehearsal', version: '0.1.0', pid: process.pid });
+        json(res, { name: 'testrill', version: '0.1.0', pid: process.pid });
         return;
       }
       if (url.pathname === '/api/connection' && method === 'GET') {
         json(res, {
           mcpServers: {
-            rehearsal: {
+            testrill: {
               command: process.execPath,
               args: [resolve(process.argv[1]), 'mcp', '--data', options.directory],
             },
@@ -327,7 +327,7 @@ export async function startEngine(options: {
           const files: Record<string, Uint8Array> = {
             'run.json': strToU8(JSON.stringify(item, null, 2)),
             'README.txt': strToU8(
-              'Rehearsal evidence bundle. Inspect run.json for assertions and event history. Open trace.zip with Playwright Trace Viewer. Traces and images may contain application data; review before sharing.\n',
+              'Testrill evidence bundle. Inspect run.json for assertions and event history. Open trace.zip with Playwright Trace Viewer. Traces and images may contain application data; review before sharing.\n',
             ),
           };
           let size = 0;
@@ -342,7 +342,7 @@ export async function startEngine(options: {
           res
             .writeHead(200, {
               'Content-Type': 'application/zip',
-              'Content-Disposition': `attachment; filename="rehearsal-${item.id}.zip"`,
+              'Content-Disposition': `attachment; filename="testrill-${item.id}.zip"`,
             })
             .end(zipSync(files, { level: 1 }));
           return;

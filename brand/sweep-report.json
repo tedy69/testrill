@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-10",
+  "scope": "tracked and new nonignored source files, excluding generated runtime/build/workspace state",
+  "tool": "replica-brand/sweep.py",
+  "legacyMatches": 35,
+  "files": {
+    ".gitignore": 1,
+    ".prettierignore": 1,
+    "CONTRIBUTING.md": 1,
+    "README.md": 1,
+    "vite.config.ts": 1,
+    "brand/brand.json": 1,
+    "brand/brand.md": 1,
+    "brand/naming-comparison.md": 3,
+    "docs/branding-upgrade.md": 5,
+    "docs/manifests.md": 1,
+    "src/client.ts": 1,
+    "src/entry.ts": 1,
+    "src/external-runner.ts": 6,
+    "src/runner.ts": 1,
+    "src/scenario-server.ts": 1,
+    "src/store.ts": 1,
+    "src-tauri/tauri.conf.json": 1,
+    "tests/external.test.ts": 1,
+    "tests/scenario.test.ts": 1,
+    "tests/schema.test.ts": 1,
+    "ui/App.tsx": 2,
+    "ui/api.ts": 2
+  },
+  "exceptionReason": "Compatibility aliases and upgrade/naming history documented in docs/branding-upgrade.md and brand/naming-comparison.md. No visible legacy identity is intended.",
+  "unexpectedMatches": []
+}

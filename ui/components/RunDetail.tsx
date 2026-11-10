@@ -90,7 +90,7 @@ export function RunDetail({
                 disabled={working}
                 onClick={() =>
                   void act(() =>
-                    download(`/runs/${run.id}/export`, `rehearsal-${run.id.slice(0, 8)}.zip`),
+                    download(`/runs/${run.id}/export`, `testrill-${run.id.slice(0, 8)}.zip`),
                   )
                 }
               >
