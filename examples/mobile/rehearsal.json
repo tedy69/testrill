@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "id": "example-mobile",
+  "name": "Maestro mobile starter",
+  "description": "Requires Maestro and your own installed mobile app. Replace the app ID in flows/launch.yaml before running.",
+  "baseUrl": "http://127.0.0.1:8081",
+  "suites": [
+    {
+      "id": "launch",
+      "name": "Launch installed app",
+      "runner": { "type": "maestro", "flow": "flows/launch.yaml", "timeoutMs": 120000 }
+    }
+  ]
+}

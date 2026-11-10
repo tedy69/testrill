@@ -1,0 +1,55 @@
+{
+  "name": "rehearsal",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local testing workbench for people and agents",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:ui": "vite --host 127.0.0.1 --port 1420 --strictPort",
+    "dev:engine": "tsx src/entry.ts serve --port 4317",
+    "build": "npm run typecheck && vite build && node scripts/build-engine.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "test:e2e": "tsx --test tests/e2e/*.test.ts",
+    "cli": "tsx src/entry.ts",
+    "mcp": "tsx src/entry.ts mcp",
+    "browsers:install": "playwright install chromium",
+    "desktop:prepare": "npm run build && node scripts/prepare-desktop.mjs",
+    "desktop:dev": "npm run desktop:prepare && tauri dev",
+    "desktop:build": "npm run desktop:prepare && tauri build",
+    "tauri": "tauri",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "schema": "tsx scripts/export-schema.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "@tauri-apps/api": "^2.9.1",
+    "@tauri-apps/plugin-dialog": "^2.4.0",
+    "fflate": "^0.8.2",
+    "playwright-core": "^1.56.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.0",
+    "@tauri-apps/cli": "^2.9.4",
+    "@types/node": "^22.19.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.1.0",
+    "esbuild": "^0.25.12",
+    "playwright": "^1.56.1",
+    "prettier": "^3.9.10",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2"
+  }
+}

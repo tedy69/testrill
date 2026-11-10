@@ -1,0 +1,5 @@
+# Replace this placeholder with your app's installed application ID.
+appId: your.application.id
+---
+- launchApp
+- takeScreenshot: launched-app

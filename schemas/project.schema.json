@@ -1,0 +1,460 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "number",
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,79}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "description": {
+      "default": "",
+      "type": "string",
+      "maxLength": 2000
+    },
+    "baseUrl": {
+      "type": "string",
+      "format": "uri"
+    },
+    "environment": {
+      "type": "object",
+      "properties": {
+        "command": {
+          "minItems": 1,
+          "maxItems": 30,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          }
+        },
+        "readyUrl": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": ["command"],
+      "additionalProperties": false
+    },
+    "suites": {
+      "minItems": 1,
+      "maxItems": 100,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,79}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "description": {
+            "default": "",
+            "type": "string",
+            "maxLength": 2000
+          },
+          "defaultScenario": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,79}$"
+          },
+          "steps": {
+            "default": [],
+            "maxItems": 200,
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "navigate"
+                    },
+                    "url": {
+                      "type": "string",
+                      "maxLength": 2000
+                    }
+                  },
+                  "required": ["type", "url"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "click"
+                    },
+                    "role": {
+                      "default": "button",
+                      "type": "string",
+                      "enum": ["button", "link", "checkbox", "tab"]
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 160
+                    },
+                    "timeoutMs": {
+                      "default": 10000,
+                      "type": "integer",
+                      "minimum": 100,
+                      "maximum": 60000
+                    }
+                  },
+                  "required": ["type", "role", "name", "timeoutMs"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "fill"
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 160
+                    },
+                    "value": {
+                      "type": "string",
+                      "maxLength": 20000
+                    },
+                    "timeoutMs": {
+                      "default": 10000,
+                      "type": "integer",
+                      "minimum": 100,
+                      "maximum": 60000
+                    }
+                  },
+                  "required": ["type", "label", "value", "timeoutMs"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "expectText"
+                    },
+                    "text": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 160
+                    },
+                    "timeoutMs": {
+                      "default": 10000,
+                      "type": "integer",
+                      "minimum": 100,
+                      "maximum": 60000
+                    }
+                  },
+                  "required": ["type", "text", "timeoutMs"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "expectUrl"
+                    },
+                    "includes": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 160
+                    },
+                    "timeoutMs": {
+                      "default": 10000,
+                      "type": "integer",
+                      "minimum": 100,
+                      "maximum": 60000
+                    }
+                  },
+                  "required": ["type", "includes", "timeoutMs"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "screenshot"
+                    },
+                    "name": {
+                      "type": "string",
+                      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,79}$"
+                    }
+                  },
+                  "required": ["type", "name"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "checkpoint"
+                    },
+                    "name": {
+                      "type": "string",
+                      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,79}$"
+                    }
+                  },
+                  "required": ["type", "name"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "request"
+                    },
+                    "url": {
+                      "type": "string",
+                      "maxLength": 2000
+                    },
+                    "method": {
+                      "default": "GET",
+                      "type": "string",
+                      "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+                    },
+                    "body": {},
+                    "expectStatus": {
+                      "type": "integer",
+                      "minimum": 100,
+                      "maximum": 599
+                    },
+                    "expectBodyIncludes": {
+                      "type": "string",
+                      "maxLength": 2000
+                    },
+                    "timeoutMs": {
+                      "default": 10000,
+                      "type": "integer",
+                      "minimum": 100,
+                      "maximum": 60000
+                    }
+                  },
+                  "required": ["type", "url", "method", "expectStatus", "timeoutMs"],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "runner": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "command"
+                  },
+                  "command": {
+                    "minItems": 1,
+                    "maxItems": 30,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    }
+                  },
+                  "timeoutMs": {
+                    "default": 120000,
+                    "type": "integer",
+                    "minimum": 100,
+                    "maximum": 300000
+                  }
+                },
+                "required": ["type", "command", "timeoutMs"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "maestro"
+                  },
+                  "flow": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "device": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "timeoutMs": {
+                    "default": 120000,
+                    "type": "integer",
+                    "minimum": 100,
+                    "maximum": 300000
+                  }
+                },
+                "required": ["type", "flow", "timeoutMs"],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "required": ["id", "name", "description", "steps"],
+        "additionalProperties": false
+      }
+    },
+    "scenarios": {
+      "default": [],
+      "maxItems": 100,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,79}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "description": {
+            "default": "",
+            "type": "string",
+            "maxLength": 2000
+          },
+          "routes": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+                },
+                "path": {
+                  "type": "string",
+                  "maxLength": 500,
+                  "format": "starts_with",
+                  "pattern": "^\\/.*"
+                },
+                "status": {
+                  "default": 200,
+                  "type": "integer",
+                  "minimum": 200,
+                  "maximum": 599
+                },
+                "delayMs": {
+                  "default": 0,
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 60000
+                },
+                "body": {},
+                "stream": {
+                  "maxItems": 500,
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "const": "event"
+                          },
+                          "data": {
+                            "type": "string",
+                            "maxLength": 100000
+                          },
+                          "event": {
+                            "type": "string",
+                            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,79}$"
+                          },
+                          "id": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "pattern": "^[^\\r\\n]*$"
+                          }
+                        },
+                        "required": ["type", "data"],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "const": "delay"
+                          },
+                          "ms": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": ["type", "ms"],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "const": "checkpoint"
+                          },
+                          "name": {
+                            "type": "string",
+                            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,79}$"
+                          }
+                        },
+                        "required": ["type", "name"],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "const": "disconnect"
+                          }
+                        },
+                        "required": ["type"],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "required": ["method", "path", "status", "delayMs"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["id", "name", "description", "routes"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["version", "id", "name", "description", "baseUrl", "suites", "scenarios"],
+  "additionalProperties": false
+}

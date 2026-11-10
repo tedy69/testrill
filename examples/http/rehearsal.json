@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "id": "example-http",
+  "name": "HTTP fixture example",
+  "description": "A local API assertion using a run-scoped scenario.",
+  "baseUrl": "http://127.0.0.1:3000",
+  "suites": [
+    {
+      "id": "health",
+      "name": "Health contract",
+      "defaultScenario": "healthy",
+      "steps": [
+        {
+          "type": "request",
+          "method": "GET",
+          "url": "{{mockUrl}}/health",
+          "expectStatus": 200,
+          "expectBodyIncludes": "ready"
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "healthy",
+      "name": "Healthy service",
+      "routes": [{ "method": "GET", "path": "/health", "body": { "status": "ready" } }]
+    }
+  ]
+}

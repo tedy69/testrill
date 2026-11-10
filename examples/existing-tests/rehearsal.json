@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "id": "example-existing-tests",
+  "name": "Existing test command",
+  "description": "A runnable command adapter example. Replace the command with your repository's test runner.",
+  "baseUrl": "http://127.0.0.1:3000",
+  "suites": [
+    {
+      "id": "node-tests",
+      "name": "Node assertion example",
+      "runner": {
+        "type": "command",
+        "command": [
+          "node",
+          "-e",
+          "require('node:assert/strict').equal(2 + 2, 4); console.log('Arithmetic assertion passed')"
+        ],
+        "timeoutMs": 30000
+      }
+    }
+  ]
+}
