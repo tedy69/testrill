@@ -66,3 +66,16 @@ fn mixed_iteration_and_empty_arrays_remain_fused() {
     assert_eq!(empty.array_iter_str().unwrap().next(), None);
     assert_eq!(empty.array_iter_str().unwrap().last(), None);
 }
+
+#[test]
+fn truncating_owned_pointer_values_keeps_the_slice_allocation_usable() {
+    let mut values: glib::PtrSlice<glib::GString> = (0..32).map(|n| n.to_string().into()).collect();
+    values.truncate(2);
+    assert_eq!(values.len(), 2);
+    assert_eq!(values[0].as_str(), "0");
+    values.push("after truncate".into());
+    assert_eq!(values[2].as_str(), "after truncate");
+    values.truncate(0);
+    values.push("reused".into());
+    assert_eq!(values[0].as_str(), "reused");
+}
