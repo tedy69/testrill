@@ -19,3 +19,9 @@ If you need an initial contact before sharing details, open a public issue that 
 - Keep workspace state and `connection.json` private. Prefer synthetic fixtures when testing a report, and use a separate workspace.
 
 See [architecture](docs/architecture.md) for execution limits and persistence boundaries. Ordinary setup failures and feature requests belong in the [issue forms](https://github.com/tedy69/testrill/issues/new/choose), not in a vulnerability report.
+
+## Known dependency advisory
+
+As of 10 November 2026, GitHub reports [GHSA-wrw7-89jp-8q8g](https://github.com/advisories/GHSA-wrw7-89jp-8q8g), a moderate-severity iterator unsoundness advisory, for `glib 0.18.5` in the transitive Linux native dependency tree. The advisory's patched line starts at `0.20.0`; Dependabot cannot resolve that version with the current dependency constraints.
+
+The alert remains open and is not dismissed. Resolving it needs a compatible update to the upstream native dependency stack, followed by Linux validation. This repository has not established whether the affected iterator is reachable in a Testrill Linux build. Linux desktop packaging is currently unverified and no Linux binary release is published. A passing macOS compile or Node/browser CI run does not resolve this advisory.

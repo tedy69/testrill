@@ -19,5 +19,7 @@ User-facing changes are recorded here. The initial public source is an early pre
 
 ### Known limits
 
+- A moderate upstream GLib advisory remains open in the Linux native dependency tree; see the [security policy](SECURITY.md) for the affected version and update constraint.
+
 - Physical mobile execution, Windows/Linux desktop packaging, Apple notarization, and named vendor-client setup are not all verified.
 - Database reset providers, arbitrary desktop interaction, shared team workspaces, screenshot baselines, and automatic test generation remain roadmap work.
