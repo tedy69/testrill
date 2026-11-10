@@ -1,0 +1,53 @@
+name: Bug report
+description: Report a reproducible problem in the workbench, engine, CLI, or MCP.
+labels: [bug, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For vulnerabilities, use the private reporting link in SECURITY.md.
+        Use synthetic data and remove tokens or private application data from attachments.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: Package version and git commit, if known
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS/architecture, Node version, and runner or MCP client when relevant.
+      placeholder: macOS arm64, Node 22.x, browser suite
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include exact commands or UI actions and a minimal sanitized manifest if needed.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and evidence
+      description: Include the exact error and relevant sanitized output. A local run ID alone is not portable evidence.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and reviewed troubleshooting.
+          required: true
+        - label: I removed secrets and private application data from this report.
+          required: true

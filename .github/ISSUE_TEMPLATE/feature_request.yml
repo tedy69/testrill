@@ -1,0 +1,37 @@
+name: Feature request
+description: Propose a workflow, adapter, or improvement.
+labels: [enhancement, needs-triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or workflow
+      description: Who needs this, and what cannot be done well today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Describe the smallest useful result and how it fits the existing engine/workbench.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: How would we verify it?
+      description: Suggest a reproducible example, acceptance criteria, and any platform requirements.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and compatibility
+      description: Existing workarounds, related tools, and effects on manifests or saved runs.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked existing proposals and the roadmap.
+          required: true

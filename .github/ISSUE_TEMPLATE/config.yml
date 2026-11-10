@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and design discussion
+    url: https://github.com/tedy69/testrill/discussions
+    about: Ask for help or discuss an idea before starting a larger change.
+  - name: Report a vulnerability privately
+    url: https://github.com/tedy69/testrill/security/advisories/new
+    about: Keep unpatched vulnerabilities and sensitive details out of public issues.

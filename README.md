@@ -1,5 +1,7 @@
 ![Testrill](brand/logo.svg)
 
+[![Verify](https://github.com/tedy69/testrill/actions/workflows/ci.yml/badge.svg)](https://github.com/tedy69/testrill/actions/workflows/ci.yml)
+
 A desktop testing workbench for people and agents. Prepare a local scenario, run a suite, and inspect the same evidence through the app, CLI, or MCP.
 
 Testrill runs without a model API key. Connect the coding agent you already use. Test execution and assertion results come from the runner.
@@ -19,11 +21,15 @@ Testrill runs without a model API key. Connect the coding agent you already use.
 
 Every sample suite produces real results when executed. An empty workspace contains no invented test history.
 
+**Status:** early public preview. The installed desktop app has been exercised on macOS Apple silicon. Linux engine/UI checks and macOS compilation run in CI; Windows/Linux desktop packaging and physical mobile execution still need validation. Start from source; a notarized installer is not published here.
+
 ## Run from source
 
 Requirements: Node.js 22.13 or newer, npm, and Chromium for browser suites. Native builds also need Rust and the [Tauri platform prerequisites](https://v2.tauri.app/start/prerequisites/).
 
 ```sh
+git clone https://github.com/tedy69/testrill.git
+cd testrill
 npm ci
 npm run browsers:install
 npm run dev
@@ -90,6 +96,8 @@ ZIP exports contain a manifest, event history, captured screenshots, and traces.
 npm test
 npm run build
 npm run test:e2e
+npm run docs:check
+npm run format:check
 npm audit
 ```
 
@@ -97,8 +105,14 @@ The integration suite executes the bundled storefront's browser flows, verifies 
 
 ## Scope
 
-This release establishes the shared engine, local workbench, agent interfaces, scenario control, and evidence workflow. It has a Maestro process adapter, not an embedded mobile device inspector. Command adapters can run existing desktop-app tests; arbitrary desktop interaction, database snapshot/reset plugins, collaborative workspaces, automatic test generation, and screenshot-diff baselines are not implemented. Desktop packaging and physical-device support require platform-specific validation.
+This preview establishes the shared engine, local workbench, agent interfaces, scenario control, and evidence workflow. It has a Maestro process adapter, not an embedded mobile device inspector. Command adapters can run existing desktop-app tests; arbitrary desktop interaction, database snapshot/reset plugins, collaborative workspaces, automatic test generation, and screenshot-diff baselines are not implemented. Desktop packaging and physical-device support require platform-specific validation.
 
-See [architecture](docs/architecture.md), [roadmap](docs/roadmap.md), and [contributing](CONTRIBUTING.md).
+## Documentation and collaboration
 
-MIT license.
+Start with the [documentation index](docs/README.md), [development guide](docs/development.md), [manifest reference](docs/manifests.md), or [agent integration](docs/agents.md).
+
+Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md), then use a [bug report or feature request](https://github.com/tedy69/testrill/issues/new/choose). Ask usage and design questions in [Discussions](https://github.com/tedy69/testrill/discussions). Review the [roadmap](docs/roadmap.md) before starting a larger change.
+
+The project has a [code of conduct](CODE_OF_CONDUCT.md), [governance guide](GOVERNANCE.md), [security reporting policy](SECURITY.md), and [changelog](CHANGELOG.md). The [agent contribution guide](AGENTS.md) and [testing skill](.agents/skills/testrill/SKILL.md) help coding agents work with the same contracts as human contributors.
+
+[MIT license](LICENSE). Figtree is distributed under its [SIL Open Font License](public/fonts/OFL.txt).
