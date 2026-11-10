@@ -2,7 +2,9 @@
 
 ## Requirements and startup
 
-Use Node.js 22.13 or newer and npm. `.nvmrc` selects Node 22. No model API key, hosted service, or `.env` file is required for the bundled example.
+Use Node.js 26 LTS or newer and npm 12.2.2 (the version recorded in `packageManager` and installed by CI). `.nvmrc` selects Node 26 and Node type definitions track that runtime major. No model API key, hosted service, or `.env` file is required for the bundled example.
+
+Install scripts are reviewed in `package.json`: esbuild's binary installer is approved for its checked version; the optional fsevents build is denied because the registry package includes its native binary. Review and update the esbuild approval when upgrading it. Do not enable every dependency script to bypass a failed install. See the [dependency review](dependency-review.md) for current versions, checks, and upstream constraints.
 
 ```sh
 npm ci

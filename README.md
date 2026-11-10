@@ -25,7 +25,7 @@ Every sample suite produces real results when executed. An empty workspace conta
 
 ## Run from source
 
-Requirements: Node.js 22.13 or newer, npm, and Chromium for browser suites. Native builds also need Rust and the [Tauri platform prerequisites](https://v2.tauri.app/start/prerequisites/).
+Requirements: Node.js 26 LTS or newer, npm 12.2.2, and Chromium for browser suites. Native builds also need Rust and the [Tauri platform prerequisites](https://v2.tauri.app/start/prerequisites/). See the [dependency review](docs/dependency-review.md) for versions and outstanding upstream advisories.
 
 ```sh
 git clone https://github.com/tedy69/testrill.git

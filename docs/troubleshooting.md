@@ -6,7 +6,7 @@ Install Chromium with `npm run browsers:install` in the checkout used for develo
 
 ## The engine does not connect
 
-Run `npm run dev:engine` in a terminal to inspect startup output. Check that Node is at least 22.13 and that the intended workspace is writable. The dev UI expects its engine at port 4317; `npm run dev` starts both components. Another engine may already own the workspace or port.
+Run `npm run dev:engine` in a terminal to inspect startup output. Check that Node is at least 26 and that the intended workspace is writable. The dev UI expects its engine at port 4317; `npm run dev` starts both components. Another engine may already own the workspace or port.
 
 Do not delete an active workspace lock, connection file, SQLite file, WAL, or evidence directory to force a second process to start. Stop the process that owns the workspace, or use a separate `--data` directory. The native app normally stops its owned engine when it quits.
 

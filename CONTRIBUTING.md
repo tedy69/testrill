@@ -16,7 +16,7 @@ npm run browsers:install
 npm run dev
 ```
 
-Use Node 22.13 or newer; `.nvmrc` selects Node 22. See the [development guide](docs/development.md) for the source map and native prerequisites. A model API key is not needed to contribute or run the bundled tests.
+Use Node 26 LTS or newer and npm 12.2.2; `.nvmrc` selects Node 26. See the [development guide](docs/development.md) for the source map and native prerequisites. A model API key is not needed to contribute or run the bundled tests.
 
 ## Validate the change
 

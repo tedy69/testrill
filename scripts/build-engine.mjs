@@ -5,7 +5,7 @@ await build({
   bundle: true,
   platform: 'node',
   format: 'cjs',
-  target: 'node22',
+  target: 'node26',
   sourcemap: true,
   external: ['playwright-core'],
 });
