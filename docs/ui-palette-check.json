@@ -1,0 +1,27 @@
+{
+  "verifiedOn": "2026-11-10",
+  "comparisonCommit": "38950d5",
+  "colorTokens": {
+    "canvas": "#f6f5f0",
+    "surface": "#fff",
+    "subsurface": "#fafaf7",
+    "sidebar": "#eeeee7",
+    "ink": "#27352f",
+    "muted": "#626d64",
+    "border": "#e0e3d9",
+    "border-strong": "#cbd1c5",
+    "hover": "#f0f2eb",
+    "teal": "#246b59",
+    "teal-dark": "#195443",
+    "selected": "#e4eee6",
+    "selected-border": "#cfdfd1",
+    "danger": "#a23b31",
+    "danger-surface": "#fff2ed",
+    "danger-border": "#eaccc1",
+    "warning": "#86551b",
+    "blue": "#365c9a",
+    "focus": "#b47732"
+  },
+  "changedColorTokens": [],
+  "newStylesUseExistingTokens": true
+}

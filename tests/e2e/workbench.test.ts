@@ -56,6 +56,11 @@ test(
 
       await page.goto(`${engine.connection.url}/#token=${engine.connection.token}`);
       await page.getByRole('heading', { name: 'Test suites', exact: true }).waitFor();
+      await page.getByLabel('Search suites').fill('declined');
+      assert.equal(await page.locator('.suite-item').count(), 1);
+      await page.getByLabel('Search suites').fill('no-suite-matches-this');
+      await page.getByRole('heading', { name: 'No matching suites' }).waitFor();
+      await page.getByLabel('Search suites').fill('');
       await page.getByRole('button', { name: 'Run suite', exact: true }).click();
       await page.getByRole('heading', { name: 'Successful checkout', exact: true }).waitFor();
       await page
@@ -63,12 +68,20 @@ test(
         .waitFor({ timeout: 30_000 });
       await page.getByRole('tab', { name: /Artifacts/ }).click();
       assert.ok(await page.getByRole('button', { name: /Download order-confirmation/ }).count());
+      await page.getByRole('tab', { name: /Artifacts/ }).focus();
+      await page.keyboard.press('ArrowRight');
+      await page.getByRole('tab', { name: 'Saved definition', selected: true }).waitFor();
+      assert.equal(
+        await page.getByRole('tab', { name: 'Saved definition' }).getAttribute('aria-selected'),
+        'true',
+      );
       await page.getByRole('tab', { name: 'Saved definition' }).click();
       assert.match(await page.locator('.saved-definition pre').innerText(), /payment-success/);
       await page.getByRole('tab', { name: 'Event timeline' }).click();
       await page.getByLabel('Filter events').selectOption('assertion');
       assert.ok(await page.locator('.event').count());
       await page.getByLabel('Filter events').selectOption('all');
+      await page.evaluate(() => document.fonts.ready);
       const scan = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
         .analyze();
@@ -81,9 +94,27 @@ test(
         [],
       );
       mkdirSync('docs/screenshots', { recursive: true });
-      await page.screenshot({ path: 'docs/screenshots/evidence.png', fullPage: true });
+      await page.mouse.move(0, 0);
+      await page.screenshot({
+        path: 'docs/screenshots/evidence.png',
+        fullPage: true,
+        animations: 'disabled',
+      });
+      for (const width of [320, 768, 1024, 1440]) {
+        await page.setViewportSize({ width, height: 1000 });
+        assert.equal(
+          await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
+          false,
+          `Run evidence overflows at ${width}`,
+        );
+      }
       await page.getByRole('button', { name: 'Test suites', exact: false }).first().click();
-      await page.screenshot({ path: 'docs/screenshots/workbench.png', fullPage: true });
+      await page.mouse.move(0, 0);
+      await page.screenshot({
+        path: 'docs/screenshots/workbench.png',
+        fullPage: true,
+        animations: 'disabled',
+      });
       await page.getByRole('button', { name: 'Scenarios', exact: true }).click();
       await page.getByLabel('Scenario JSON').fill('{broken');
       await page.getByRole('button', { name: 'Save scenario' }).click();
@@ -104,6 +135,14 @@ test(
       await page.getByRole('button', { name: 'Save scenario', exact: true }).click();
       await page.getByRole('status').filter({ hasText: 'Scenario saved' }).waitFor();
       await page.getByRole('button', { name: 'Run history', exact: true }).click();
+      await page.getByLabel('Search runs').fill('no-run-matches-this');
+      await page.getByRole('heading', { name: 'No matching runs' }).waitFor();
+      await page.getByLabel('Search runs').fill('');
+      await page.getByLabel('Result', { exact: true }).selectOption('failed');
+      assert.ok(await page.locator('.runs-table tbody tr').count());
+      for (const row of await page.locator('.runs-table tbody tr').all())
+        assert.match(await row.innerText(), /failed/i);
+      await page.getByLabel('Result', { exact: true }).selectOption('all');
       await page.getByText('Compare two runs', { exact: true }).click();
       const options = page.locator('.compare-inputs select');
       await options.nth(0).selectOption({ index: 1 });
@@ -151,7 +190,23 @@ test(
           `Overflow at ${width}: ${dimensions.scroll}`,
         );
       }
+      for (const view of ['Test suites', 'Scenarios', 'Project configuration', 'Run history']) {
+        await page
+          .getByRole('button', { name: view, exact: view !== 'Test suites' })
+          .first()
+          .click();
+        for (const width of [320, 768, 1024, 1440]) {
+          await page.setViewportSize({ width, height: 1000 });
+          const overflow = await page.evaluate(
+            () => document.documentElement.scrollWidth > innerWidth,
+          );
+          assert.equal(overflow, false, `${view} overflows at ${width}`);
+        }
+      }
       await page.setViewportSize({ width: 320, height: 900 });
+      await page.getByRole('button', { name: 'Open navigation' }).click();
+      await page.keyboard.press('Escape');
+      assert.equal(await page.locator('.sidebar-open').count(), 0);
       await page.getByRole('button', { name: 'Open navigation' }).click();
       await page.getByRole('button', { name: 'Close navigation' }).click();
       assert.deepEqual(errors, []);

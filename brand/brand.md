@@ -23,7 +23,7 @@ Reading this as a desktop developer instrument and public repository identity, w
 | Graphite `#27352F`                              | Makes dense evidence readable and distinguishes the checkpoint from the path.                                                  |
 | Warm canvas `#F6F5F0`, white `#FFFFFF`          | Separates the workspace from editing surfaces while keeping the approved warm light character.                                 |
 | Figtree SemiBold wordmark                       | Open humanist lettering gives the technical instrument a warm, clear voice. Logos use outlined paths for consistent rendering. |
-| System sans-serif in the application            | Uses familiar native text and avoids loading a logo font throughout dense evidence views.                                      |
+| Self-hosted Figtree in the application          | Connects the workbench to the wordmark while keeping evidence readable; native sans-serif remains the fallback.                |
 | Generous clear space in brand artwork           | Gives the mark a recognizable silhouette; workbench spacing stays compact for investigation.                                   |
 | Motion limited to functional feedback           | Progress and state changes remain the focus; the identity itself is static.                                                    |
 

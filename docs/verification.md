@@ -2,6 +2,8 @@
 
 Local verification on 10 November 2026, macOS on Apple silicon. This record describes checks actually performed; it is not a claim about every operating system or application.
 
+The subsequent reference-led redesign, exact palette preservation, responsive checks across all six main views, and installed-app update are recorded in [workbench redesign verification](ui-redesign-verification.md).
+
 ## Engine and integration
 
 - `npm test`: ten tests passed. Covers manifest invariants and published examples, SQLite persistence, run-scoped SSE checkpoints and event-ID resumption, shutdown of waiting streams, real HTTP assertions, failed assertions, network metadata, configured command execution/cancellation, missing-runner classification, API authentication/origin rejection, workspace ownership, evidence export, and authenticated HTTP MCP. The environment lifecycle test confirmed that existing external services are preserved and only owned processes are stopped.

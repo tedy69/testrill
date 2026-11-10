@@ -5,6 +5,7 @@ import {
   StopCircleIcon,
   WarningCircleIcon,
   ClockIcon,
+  MagnifyingGlassIcon,
 } from '@phosphor-icons/react';
 import type { RunStatus } from '../../src/schema';
 export function Status({ status }: { status: RunStatus }) {
@@ -54,5 +55,29 @@ export function Loading({ label = 'Loading workspace' }: { label?: string }) {
       <CircleNotchIcon size={20} className="spin" aria-hidden="true" />
       {label}
     </div>
+  );
+}
+export function SearchField({
+  label,
+  value,
+  onChange,
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+}) {
+  return (
+    <label className="search-field">
+      <MagnifyingGlassIcon size={17} aria-hidden="true" />
+      <span className="sr-only">{label}</span>
+      <input
+        type="search"
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+      />
+    </label>
   );
 }

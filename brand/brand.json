@@ -9,7 +9,7 @@
   "palette": { "primary": "#246B59", "ink": "#27352F", "canvas": "#F6F5F0", "surface": "#FFFFFF" },
   "typography": {
     "wordmark": "Figtree SemiBold, outlined",
-    "ui": "system sans-serif",
+    "ui": "self-hosted Figtree with system sans-serif fallback",
     "code": "system monospace"
   },
   "dials": { "energy": 2, "rhythm": 2, "motion": 1 },

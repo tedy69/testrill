@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   SquaresFourIcon,
   ListChecksIcon,
@@ -16,7 +16,7 @@ import {
 } from '@phosphor-icons/react';
 import type { Project, Run, Suite, Environment } from '../src/schema';
 import { api, duration, environment, projectList, runList, shortTime } from './api';
-import { Empty, ErrorNotice, Loading, Status } from './components/Shared';
+import { Empty, ErrorNotice, Loading, SearchField, Status } from './components/Shared';
 import { Suites } from './components/Suites';
 import { RunDetail } from './components/RunDetail';
 import { Agents, Configuration, ImportDialog, Scenarios } from './components/Editors';
@@ -42,6 +42,8 @@ export function App() {
   const [busy, setBusy] = useState(false);
   const [importing, setImporting] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const sidebarRef = useRef<HTMLElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [toast, setToast] = useState('');
   const project = projects.find((item) => item.config.id === projectId) ?? projects[0];
   const refreshProjects = useCallback(async () => {
@@ -98,6 +100,43 @@ export function App() {
     const timer = setTimeout(() => setToast(''), 6000);
     return () => clearTimeout(timer);
   }, [toast]);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const sidebar = sidebarRef.current;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    sidebar?.querySelector<HTMLButtonElement>('.mobile-close')?.focus();
+    const close = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+      if (event.key !== 'Tab' || !sidebar) return;
+      const controls = [
+        ...sidebar.querySelectorAll<HTMLElement>(
+          'button:not(:disabled), select:not(:disabled), a[href]',
+        ),
+      ].filter((item) => item.getClientRects().length);
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      }
+      if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    };
+    window.addEventListener('keydown', close);
+    const onResize = () => {
+      if (window.innerWidth > 700) setMenuOpen(false);
+    };
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('keydown', close);
+      window.removeEventListener('resize', onResize);
+      document.body.style.overflow = previousOverflow;
+      menuButtonRef.current?.focus();
+    };
+  }, [menuOpen]);
   const perform = async (action: () => Promise<void>) => {
     setBusy(true);
     setError('');
@@ -145,15 +184,30 @@ export function App() {
   const title =
     view === 'agents'
       ? 'Agent connection'
-      : (views.find((item) => item.id === view)?.label ?? 'Workspace');
+      : view === 'history' && runId
+        ? 'Run evidence'
+        : (views.find((item) => item.id === view)?.label ?? 'Workspace');
+  const descriptions: Record<View, string> = {
+    suites: 'Choose a definition. Set the conditions. Record what happens.',
+    scenarios: 'Control the responses and event streams your tests encounter.',
+    history: runId
+      ? 'Inspect the assertions, events, and evidence behind this result.'
+      : 'Every result, with the definition and evidence that produced it.',
+    configuration: 'Manage test suites, target URLs, and the project environment.',
+    agents: 'One testing engine. Your desktop, command line, and coding agent.',
+  };
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main">
         Skip to workspace
       </a>
       <aside
+        id="workspace-navigation"
+        ref={sidebarRef}
         className={`sidebar ${menuOpen ? 'sidebar-open' : ''}`}
         aria-label="Workspace navigation"
+        role={menuOpen ? 'dialog' : undefined}
+        aria-modal={menuOpen ? true : undefined}
       >
         <div className="brand">
           <img
@@ -171,9 +225,9 @@ export function App() {
             <XIcon size={20} aria-hidden="true" />
           </button>
         </div>
-        <span className="brand-caption">THE TESTING WORKBENCH</span>
+        <span className="brand-caption">Testing workbench</span>
         <div className="project-picker">
-          <label htmlFor="project-picker">PROJECT</label>
+          <label htmlFor="project-picker">Current project</label>
           <div>
             <FolderIcon size={18} aria-hidden="true" />
             <select
@@ -199,7 +253,8 @@ export function App() {
             </select>
           </div>
         </div>
-        <nav>
+        <div className="nav-group-label">Workspace</div>
+        <nav aria-label="Project views">
           {views.map(({ id, label, Icon }) => (
             <button
               className={`nav-item ${view === id ? 'active' : ''}`}
@@ -233,20 +288,30 @@ export function App() {
           </div>
         </div>
       </aside>
-      <div className="workspace">
+      {menuOpen && (
+        <button
+          className="navigation-scrim"
+          aria-label="Dismiss navigation overlay"
+          onClick={() => setMenuOpen(false)}
+        />
+      )}
+      <div className="workspace" inert={menuOpen}>
         <header className="topbar">
           <div className="breadcrumbs">
             <button
               className="icon-button mobile-menu"
+              ref={menuButtonRef}
               aria-label="Open navigation"
+              aria-expanded={menuOpen}
+              aria-controls="workspace-navigation"
               onClick={() => setMenuOpen(true)}
             >
               <ListIcon size={22} aria-hidden="true" />
             </button>
             <SquaresFourIcon size={18} aria-hidden="true" />
-            <span>Workspace</span>
-            <span aria-hidden="true">/</span>
             <strong>{project?.config.name ?? 'No project selected'}</strong>
+            <span aria-hidden="true">/</span>
+            <span className="breadcrumb-view">{title}</span>
           </div>
           <button onClick={() => setImporting(true)} disabled={!connected}>
             <PlusIcon size={17} aria-hidden="true" />
@@ -262,12 +327,7 @@ export function App() {
                   : 'LOCAL PROJECT'}
               </div>
               <h1>{title}</h1>
-              <p>
-                {view === 'agents'
-                  ? 'Give your agent the tools to test, inspect, and reproduce.'
-                  : (project?.config.description ??
-                    'Connect the engine to open your testing workspace.')}
-              </p>
+              <p>{descriptions[view]}</p>
             </div>
             {project && view !== 'agents' && (
               <div className="environment-controls">
@@ -402,6 +462,15 @@ export function App() {
 function History({ runs, onInspect }: { runs: Run[]; onInspect: (id: string) => void }) {
   const [baseline, setBaseline] = useState('');
   const [candidate, setCandidate] = useState('');
+  const [query, setQuery] = useState('');
+  const [result, setResult] = useState('all');
+  const visible = runs.filter(
+    (run) =>
+      (result === 'all' || run.status === result) &&
+      `${run.suiteName} ${run.scenarioName ?? ''} ${run.id}`
+        .toLowerCase()
+        .includes(query.trim().toLowerCase()),
+  );
   const before = runs.find((run) => run.id === baseline);
   const after = runs.find((run) => run.id === candidate);
   if (!runs.length)
@@ -425,6 +494,34 @@ function History({ runs, onInspect }: { runs: Run[]; onInspect: (id: string) => 
           active
         </span>
         <span className="subtle">Most recent {runs.length} runs</span>
+      </div>
+      <div className="history-toolbar">
+        <SearchField
+          label="Search runs"
+          value={query}
+          onChange={setQuery}
+          placeholder="Find a suite, scenario, or run…"
+        />
+        <div className="result-filter">
+          <label htmlFor="run-result-filter">Result</label>
+          <select
+            id="run-result-filter"
+            value={result}
+            onChange={(event) => setResult(event.target.value)}
+          >
+            <option value="all">All results</option>
+            {['passed', 'failed', 'running', 'queued', 'cancelled', 'blocked', 'interrupted'].map(
+              (status) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
+              ),
+            )}
+          </select>
+        </div>
+        <span className="subtle" aria-live="polite">
+          {visible.length} results
+        </span>
       </div>
       {runs.length > 1 && (
         <details className="compare-panel">
@@ -520,7 +617,7 @@ function History({ runs, onInspect }: { runs: Run[]; onInspect: (id: string) => 
             </tr>
           </thead>
           <tbody>
-            {runs.map((run) => (
+            {visible.map((run) => (
               <tr key={run.id}>
                 <td>
                   <strong>{run.suiteName}</strong>
@@ -544,6 +641,15 @@ function History({ runs, onInspect }: { runs: Run[]; onInspect: (id: string) => 
                 </td>
               </tr>
             ))}
+            {!visible.length && (
+              <tr>
+                <td colSpan={6}>
+                  <Empty title="No matching runs">
+                    Change the search or result filter to see more runs.
+                  </Empty>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
