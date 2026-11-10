@@ -3,6 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "description": "A local testing workbench for people and agents",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tedy69/testrill.git"
+  },
+  "homepage": "https://github.com/tedy69/testrill#readme",
+  "bugs": {
+    "url": "https://github.com/tedy69/testrill/issues"
+  },
   "type": "module",
   "license": "MIT",
   "engines": {
@@ -25,7 +33,8 @@
     "tauri": "tauri",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "schema": "tsx scripts/export-schema.ts"
+    "schema": "tsx scripts/export-schema.ts",
+    "docs:check": "node scripts/check-docs.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.27.0",
@@ -47,10 +56,13 @@
     "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^5.1.0",
     "esbuild": "^0.25.12",
+    "github-slugger": "^2.0.0",
+    "marked": "^18.2.0",
     "playwright": "^1.56.1",
     "prettier": "^3.9.10",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "vite": "^7.2.2"
+    "vite": "^7.2.2",
+    "yaml": "^2.9.1"
   }
 }
