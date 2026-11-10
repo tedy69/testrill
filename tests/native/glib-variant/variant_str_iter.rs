@@ -69,13 +69,20 @@ fn mixed_iteration_and_empty_arrays_remain_fused() {
 
 #[test]
 fn truncating_owned_pointer_values_keeps_the_slice_allocation_usable() {
-    let mut values: glib::PtrSlice<glib::GString> = (0..32).map(|n| n.to_string().into()).collect();
+    let mut values: glib::PtrSlice<glib::Object> = (0..32)
+        .map(|_| glib::Object::new::<glib::Object>())
+        .collect();
+    let removed = values[2].downgrade();
+    let retained = values[0].downgrade();
     values.truncate(2);
     assert_eq!(values.len(), 2);
-    assert_eq!(values[0].as_str(), "0");
-    values.push("after truncate".into());
-    assert_eq!(values[2].as_str(), "after truncate");
+    assert!(removed.upgrade().is_none());
+    assert!(retained.upgrade().is_some());
+    let replacement = glib::Object::new::<glib::Object>();
+    values.push(replacement.clone());
+    assert_eq!(values[2], replacement);
     values.truncate(0);
-    values.push("reused".into());
-    assert_eq!(values[0].as_str(), "reused");
+    assert!(retained.upgrade().is_none());
+    values.push(replacement.clone());
+    assert_eq!(values[0], replacement);
 }
